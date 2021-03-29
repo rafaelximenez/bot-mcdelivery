@@ -4,7 +4,8 @@ import chromedriver_autoinstaller
 import time
 
 class Selenium:
-    def __init__(self):
+    def __init__(self, config):
+        self.config = config
         # Verifique se a versão atual do chromedriver existe
         # e se não existir, baixe-o automaticamente,
         # em seguida, adicione chromedriver ao caminho
@@ -13,10 +14,10 @@ class Selenium:
         self.driver = webdriver.Chrome()
 
     def login(self):
-        url = 'https://mcdelivery.mcdonalds.com.br/'
-        zipcode = ''
-        number = ''
-        complement = ''
+        url = self.configurl
+        zipcode = self.config.zipcode
+        number = self.config.number
+        complement = self.config.complement
 
         self.driver.get(url)
 

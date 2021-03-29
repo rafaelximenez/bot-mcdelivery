@@ -1,4 +1,5 @@
 from src.helpers import selenium as slnm
+import config
 
-selenium = slnm.Selenium()
+selenium = slnm.Selenium(config)
 selenium.login()
