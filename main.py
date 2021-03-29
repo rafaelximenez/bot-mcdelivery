@@ -1,5 +1,7 @@
-from src.helpers import selenium as slnm
+from engine import mcdonalds
 import config
 
-selenium = slnm.Selenium(config)
-selenium.login()
+mc = mcdonalds.Mcdonalds(config)
+mc.fill_delivery_data()
+mc.order_standard_snack()
+mc.check_out()
