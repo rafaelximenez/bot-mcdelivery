@@ -19,3 +19,4 @@ class Browser:
         #chrome_options.add_argument("--user-data-dir=/tmp/browser/")
 
         self.driver = webdriver.Chrome(chrome_options=chrome_options)
+        self.driver.maximize_window()

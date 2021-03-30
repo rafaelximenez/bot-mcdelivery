@@ -1,5 +1,5 @@
 from .browser import *
-import time, logging
+import time, logging, re
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
@@ -27,13 +27,25 @@ class Mcdonalds(Browser):
 
         self.driver.find_element_by_xpath('/html/body/main/div/div/div/div/div[1]/form/div[4]/div[1]/input').send_keys(number)
         self.driver.find_element_by_xpath('/html/body/main/div/div/div/div/div[1]/form/div[4]/div[2]/input').send_keys(complement + Keys.RETURN)
+        
+        time.sleep(1)
+
+        try:
+            popup = self.driver.find_element_by_xpath('/html/body/main/div/div/div/div/div[4]/div[2]/div[2]/span')
+            if re.search('McDelivery ainda não', popup.text, re.IGNORECASE):
+                logger.error('Serviço indisponível!')
+                return False
+        except:
+            logger.info('Serviço disponível!')
+            time.sleep(1)
 
         logger.info('Dados de entrega preenchidos!')
-        time.sleep(5)
+        time.sleep(4)
+        return True
 
     def order_standard_snack(self):
         self.driver.get(f'{self.config.BASE_URL}{self.config.STANDARD_SNACK}')
-        time.sleep(8)
+        time.sleep(5)
         self.driver.execute_script('window.scrollBy(0, 500)')
         self.driver.find_element_by_xpath('/html/body/main/div/section[1]/div/div/div/ul/li/div[3]/div/div[1]/form/div/ul/li[2]').click()
         self.driver.execute_script('window.scrollBy(0, 650)')
